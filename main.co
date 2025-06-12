@@ -1,0 +1,33 @@
+define user_query
+  "{{query}}"
+
+detect_intent_flow:
+  - user_query
+  - $intent = call LLM """
+      You are a strict classifier. Analyze the user query and return only the most relevant topic from this list:
+      
+      politics, public figure, legal advice, hate speech, financial advice
+
+      Rules:
+      - Only output ONE of the exact topic names above
+      - No extra text, explanation, or formatting
+      - If no match, return "none"
+
+      Examples:
+      Query: Can I get some legal help? → legal advice
+      Query: What do you think about Trump? → public figure
+      Query: How should I invest my money? → financial advice
+      Query: Should I report my neighbor? → none
+
+      Query: {{$query}}
+    """
+  - log "Raw LLM Output: $intent"
+  - set $intent = $intent.replace('"', '').replace("'", "").strip().lower()
+  - log "Normalized Intent: $intent"
+
+  - if $intent in ["politics", "public figure", "legal advice", "hate speech", "financial advice"]
+    - prevent default processing
+    - bot "BLOCKED_TOPIC_DETECTED"
+  - else
+    - $answer = execute pass_to_next_module(query=$query)
+    - bot $answer
