@@ -1,0 +1,8 @@
+new_approach/
+        |
+        |--Project/
+        |      |--main.py
+        |      |--main.co
+        |--.env
+        |--api.py
+        |--config.yaml
