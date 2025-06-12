@@ -1,0 +1,21 @@
+models:
+  - type: main
+    engine: azure
+    model: gpt4
+
+rails:
+  input:
+    deny_list:
+      - "politics"
+      - "public figure"
+      - "legal advice"
+      - "hate speech"
+      - "financial advice"
+
+  output:
+    deny_list:
+      - "politics"
+      - "public figure"
+      - "legal advice"
+      - "hate speech"
+      - "financial advice"
