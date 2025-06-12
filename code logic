@@ -1,0 +1,15 @@
+1.Take input from user in postman by invoking flask api
+2.Include Japanese and english language support for user_query 
+2.Test the user query for any blocked topics in "blocked_topics[]" list in main.py, using NVIDIA's Nemo Guardrails
+3. if guardrail == "fail" print output as "{
+    "result": "pass"
+    "final_message": "Your input has been flagged for sensitive content by LLM Guardrails and has been blocked for security reasons.",
+    "reason": blocked topic found in the user query,
+    "topics_found": [blocked topic found in the user query]
+    }
+    if guardrail == "pass" , check for pii_masking and apply that print output as "{
+    "result": "pass"
+    "final_message": "user_query"(if no pii masking needed)| mask the pii using local model as such "My name is Sonia" should become "my name is {name}
+    "reason": pii_masked (in case of masking needed),
+    }
+4. use only llm call per query
